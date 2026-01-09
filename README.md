@@ -1,1 +1,0 @@
-postgresql://neondb_owner:npg_v2iyBbMsKUV3@ep-old-cell-ad6ohjtt-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require ye meri data base hia is me 3 tables hai edo same hai todo k name se or ek user k nam ese but us me full name ab bhi nh "# hackathon-2-todo-phase-2" 
