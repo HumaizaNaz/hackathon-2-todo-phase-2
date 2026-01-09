@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 40, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/km/Desktop/docs/hackatho-2/phase-2/frontend/src/app/api/auth/%5B...all%5D/route.ts"],"sourcesContent":["import { auth } from \"../../../lib/auth\";\nimport { toNextJsHandler } from \"better-auth/next-js\"; // Use toNextJSHandler as per error.md\n\nexport const { GET, POST } = toNextJSHandler(auth); // As per error.md"],"names":[],"mappings":";;;;;;;;;;;;AAGO,MAAM,EAAE,GAAG,EAAE,IAAI,EAAE,GAAG,gBAAgB,OAAO,kBAAkB"}}]
-}
