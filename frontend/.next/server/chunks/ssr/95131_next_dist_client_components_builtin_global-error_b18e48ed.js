@@ -1,0 +1,3 @@
+module.exports=[38008,(a,b,c)=>{let{createClientModuleProxy:d}=a.r(51105);a.n(d("[project]/Desktop/docs/hackatho-2/phase-2/frontend/node_modules/next/dist/client/components/builtin/global-error.js <module evaluation>"))},40141,(a,b,c)=>{let{createClientModuleProxy:d}=a.r(51105);a.n(d("[project]/Desktop/docs/hackatho-2/phase-2/frontend/node_modules/next/dist/client/components/builtin/global-error.js"))},8640,a=>{"use strict";a.i(38008);var b=a.i(40141);a.n(b)}];
+
+//# sourceMappingURL=95131_next_dist_client_components_builtin_global-error_b18e48ed.js.map

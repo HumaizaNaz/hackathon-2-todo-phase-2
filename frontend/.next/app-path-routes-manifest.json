@@ -1,0 +1,13 @@
+{
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/about/page": "/about",
+  "/api/auth/[...all]/route": "/api/auth/[...all]",
+  "/dashboard/page": "/dashboard",
+  "/dashboard/profile/page": "/dashboard/profile",
+  "/dashboard/settings/page": "/dashboard/settings",
+  "/dashboard/todos/page": "/dashboard/todos",
+  "/login/page": "/login",
+  "/page": "/",
+  "/signup/page": "/signup"
+}
