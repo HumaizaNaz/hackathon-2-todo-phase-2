@@ -3,33 +3,42 @@
 
 import { useState, useEffect } from "react";
 import { useAuth } from "../../../context/AuthContext";
-import { useRouter } from "next/navigation";
 import { taskApi } from "../../../lib/api-client";
-import Sidebar from "../../../components/Sidebar";
 
 interface Todo {
   id: string;
   title: string;
   description: string | null;
   completed: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface TodoHistory {
+  id: string;
+  title: string;
+  description: string | null;
+  completed: boolean;
+  completedAt: string | null;
+  deletedAt: string | null;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export default function TodosPage() {
-  const { logout, isAuthenticated, loading, user } = useAuth();
-  const router = useRouter();
+  const { user } = useAuth();
   const [todos, setTodos] = useState<Todo[]>([]);
   const [newTodoTitle, setNewTodoTitle] = useState("");
   const [newTodoDescription, setNewTodoDescription] = useState("");
   const [editingTodo, setEditingTodo] = useState<Todo | null>(null);
+  const [showAddForm, setShowAddForm] = useState(true); // Show form by default
   const [error, setError] = useState("");
+  const [activeTab, setActiveTab] = useState<'todos' | 'analytics'>('todos');
 
+  // Fetch todos
   useEffect(() => {
-    if (!loading && !isAuthenticated) {
-      router.push("/login");
-    } else if (isAuthenticated) {
-      fetchTodos();
-    }
-  }, [isAuthenticated, loading, router]);
+    fetchTodos();
+  }, []);
 
   const fetchTodos = async () => {
     setError("");
@@ -40,6 +49,11 @@ export default function TodosPage() {
       setError(err.message);
     }
   };
+
+  // Calculate analytics
+  const totalTodos = todos.length;
+  const completedTodos = todos.filter(todo => todo.completed).length;
+  const pendingTodos = totalTodos - completedTodos;
 
   const handleAddTodo = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -73,8 +87,11 @@ export default function TodosPage() {
   const toggleTodoComplete = async (id: string) => {
     setError("");
     try {
-      await taskApi.toggleTaskComplete(Number(id));
-      fetchTodos();
+      const todo = todos.find(t => t.id === id);
+      if (todo) {
+        await taskApi.toggleTaskComplete(Number(id), !todo.completed);
+        fetchTodos();
+      }
     } catch (err: any) {
       setError(err.message);
     }
@@ -90,180 +107,232 @@ export default function TodosPage() {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-[color:var(--bg-primary)] text-[color:var(--text-primary)] flex items-center justify-center">
-        <div className="text-2xl font-bold text-[color:var(--neon-cyan)] animate-pulse">Loading...</div>
+  // Render analytics component
+  const AnalyticsComponent = () => (
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <div className="bg-[color:var(--bg-card)] rounded-lg border border-[color:var(--border-neon)] shadow-[0_0_15px_rgba(0,255,255,0.2)] p-6">
+        <h3 className="text-lg font-semibold text-[color:var(--neon-cyan)] mb-2">Total Tasks</h3>
+        <p className="text-3xl font-bold text-[color:var(--text-primary)]">{totalTodos}</p>
       </div>
-    );
-  }
+      <div className="bg-[color:var(--bg-card)] rounded-lg border border-[color:var(--border-neon)] shadow-[0_0_15px_rgba(0,255,255,0.2)] p-6">
+        <h3 className="text-lg font-semibold text-[color:var(--neon-cyan)] mb-2">Completed</h3>
+        <p className="text-3xl font-bold text-[color:var(--text-primary)]">{completedTodos}</p>
+      </div>
+      <div className="bg-[color:var(--bg-card)] rounded-lg border border-[color:var(--border-neon)] shadow-[0_0_15px_rgba(0,255,255,0.2)] p-6">
+        <h3 className="text-lg font-semibold text-[color:var(--neon-cyan)] mb-2">Pending</h3>
+        <p className="text-3xl font-bold text-[color:var(--text-primary)]">{pendingTodos}</p>
+      </div>
+    </div>
+  );
 
   return (
-    <div className="min-h-screen bg-[color:var(--bg-primary)] text-[color:var(--text-primary)] overflow-x-hidden relative">
-      {/* Animated Blob Background */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
-        <div className="blob-c">
-          <div className="blob"></div>
-          <div className="blob"></div>
-          <div className="blob"></div>
+    <div className="max-w-6xl mx-auto">
+      <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-8">
+        <h1 className="text-3xl md:text-4xl font-bold text-[color:var(--neon-cyan)] mb-4 md:mb-0">
+          My Todos
+        </h1>
+        <div className="text-center md:text-right">
+          <h2 className="text-lg font-semibold text-[color:var(--text-primary)]">Welcome, {user?.name || user?.email || 'User'}!</h2>
         </div>
       </div>
 
-      <div className="flex">
-        {/* Sidebar */}
-        <Sidebar onLogout={logout} />
+      {error && (
+        <div className="mb-6 p-4 bg-[color:var(--bg-card)] rounded-lg border border-red-500/50 shadow-[0_0_15px_rgba(255,0,0,0.2)] text-red-300">
+          {error}
+        </div>
+      )}
 
-        {/* Main Content */}
-        <main className="flex-1 ml-64 p-6">
-          <div className="max-w-6xl mx-auto">
-            <div className="flex justify-between items-center mb-8">
-              <h1 className="text-4xl font-bold text-[color:var(--neon-cyan)] mb-6">
-                My Todos
-              </h1>
-              <div className="text-right">
-                <h2 className="text-lg font-semibold text-[color:var(--text-primary)]">Welcome, {user?.email || user?.name || 'User'}!</h2>
-                <button
-                  onClick={logout}
-                  className="mt-2 px-4 py-2 rounded-lg bg-gradient-to-r from-[#ff00ff]/20 to-[#00ffff]/20 hover:from-[#ff00ff]/30 hover:to-[#00ffff]/30 border border-[color:var(--border-neon)] transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_15px_rgba(255,0,255,0.4)] text-[color:var(--text-primary)]"
-                >
-                  Logout
-                </button>
-              </div>
-            </div>
+      {/* Tabs */}
+      <div className="flex border-b border-[color:var(--border-neon)] mb-6">
+        <button
+          className={`py-2 px-4 font-medium ${activeTab === 'todos' ? 'text-[color:var(--neon-cyan)] border-b-2 border-[color:var(--neon-cyan)]' : 'text-[color:var(--text-secondary)] hover:text-[color:var(--neon-pink)]'}`}
+          onClick={() => setActiveTab('todos')}
+        >
+          Todos ({todos.length})
+        </button>
+        <button
+          className={`py-2 px-4 font-medium ${activeTab === 'analytics' ? 'text-[color:var(--neon-cyan)] border-b-2 border-[color:var(--neon-cyan)]' : 'text-[color:var(--text-secondary)] hover:text-[color:var(--neon-pink)]'}`}
+          onClick={() => setActiveTab('analytics')}
+        >
+          Analytics
+        </button>
+      </div>
 
-            {error && (
-              <div className="mb-6 p-4 bg-[color:var(--bg-card)] rounded-lg border border-red-500/50 shadow-[0_0_15px_rgba(255,0,0,0.2)] text-red-300">
-                {error}
+      {activeTab === 'todos' && (
+        <>
+          <div className="mb-8 bg-[color:var(--bg-card)] rounded-lg border border-[color:var(--border-neon)] shadow-[0_0_15px_rgba(255,0,255,0.2)]">
+            <button
+              className="w-full p-4 text-left flex justify-between items-center"
+              onClick={() => setShowAddForm(!showAddForm)}
+            >
+              <h2 className="text-2xl font-bold text-[color:var(--neon-pink)]">Add New Todo</h2>
+              <svg
+                className={`w-5 h-5 text-[color:var(--neon-pink)] transform transition-transform ${showAddForm ? 'rotate-180' : ''}`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+
+            {showAddForm && (
+              <div className="p-6 border-t border-[color:var(--border-neon)]">
+                <form onSubmit={handleAddTodo}>
+                  <input
+                    type="text"
+                    placeholder="New todo title"
+                    value={newTodoTitle}
+                    onChange={(e) => setNewTodoTitle(e.target.value)}
+                    className="w-full p-3 mb-3 rounded-lg bg-[color:var(--bg-input)] border border-[color:var(--border-neon)] focus:ring-2 focus:ring-[color:var(--neon-cyan)] focus:border-transparent text-[color:var(--text-primary)] placeholder-[color:var(--text-secondary)]"
+                    required
+                  />
+                  <textarea
+                    placeholder="Todo description (optional)"
+                    value={newTodoDescription}
+                    onChange={(e) => setNewTodoDescription(e.target.value)}
+                    className="w-full p-3 mb-4 rounded-lg bg-[color:var(--bg-input)] border border-[color:var(--border-neon)] focus:ring-2 focus:ring-[color:var(--neon-cyan)] focus:border-transparent text-[color:var(--text-primary)] placeholder-[color:var(--text-secondary)]"
+                    rows={3}
+                  />
+                  <button
+                    type="submit"
+                    className="neon-button-primary px-6 py-3 text-lg"
+                  >
+                    Add Todo
+                  </button>
+                </form>
               </div>
             )}
+          </div>
 
-            <div className="mb-8 p-6 bg-[color:var(--bg-card)] rounded-lg border border-[color:var(--border-neon)] shadow-[0_0_15px_rgba(255,0,255,0.2)]">
-              <h2 className="text-2xl font-bold mb-4 text-[color:var(--neon-pink)]">Add New Todo</h2>
-              <form onSubmit={handleAddTodo}>
-                <input
-                  type="text"
-                  placeholder="New todo title"
-                  value={newTodoTitle}
-                  onChange={(e) => setNewTodoTitle(e.target.value)}
-                  className="w-full p-3 mb-3 rounded-lg bg-[color:var(--bg-input)] border border-[color:var(--border-neon)] focus:ring-2 focus:ring-[color:var(--neon-cyan)] focus:border-transparent text-[color:var(--text-primary)] placeholder-[color:var(--text-secondary)]"
-                  required
-                />
-                <textarea
-                  placeholder="Todo description (optional)"
-                  value={newTodoDescription}
-                  onChange={(e) => setNewTodoDescription(e.target.value)}
-                  className="w-full p-3 mb-4 rounded-lg bg-[color:var(--bg-input)] border border-[color:var(--border-neon)] focus:ring-2 focus:ring-[color:var(--neon-cyan)] focus:border-transparent text-[color:var(--text-primary)] placeholder-[color:var(--text-secondary)]"
-                  rows={3}
-                />
-                <button
-                  type="submit"
-                  className="neon-button-primary px-6 py-3 text-lg"
-                >
-                  Add Todo
-                </button>
-              </form>
+          <div className="bg-[color:var(--bg-card)] rounded-lg border border-[color:var(--border-neon)] shadow-[0_0_15px_rgba(255,0,255,0.2)] p-6">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-[color:var(--neon-cyan)]">Your Todos ({todos.length})</h2>
             </div>
 
-            <div className="bg-[color:var(--bg-card)] rounded-lg border border-[color:var(--border-neon)] shadow-[0_0_15px_rgba(255,0,255,0.2)] p-6">
-              <h2 className="text-2xl font-bold mb-6 text-[color:var(--neon-cyan)]">Your Todos</h2>
-
-              <div className="space-y-4">
-                {todos.length === 0 ? (
-                  <div className="text-center py-12">
-                    <p className="text-xl text-[color:var(--text-secondary)] mb-4">No todos yet. Add one above!</p>
-                    <div className="text-[color:var(--neon-cyan)] text-6xl animate-pulse">📝</div>
-                  </div>
-                ) : (
-                  todos.map((todo) => (
-                    <div
-                      key={todo.id}
-                      className="flex items-start justify-between bg-[color:var(--bg-primary)]/50 p-4 rounded-lg border border-[color:var(--border-neon)] hover:shadow-[0_0_15px_rgba(0,255,255,0.3)] transition-all duration-300 transform hover:scale-[1.01]"
-                    >
-                      {editingTodo?.id === todo.id ? (
-                        <div className="flex-grow flex flex-col space-y-3">
+            <div className="space-y-4">
+              {todos.length === 0 ? (
+                <div className="text-center py-12">
+                  <p className="text-xl text-[color:var(--text-secondary)] mb-4">No todos yet. Add one above!</p>
+                  <div className="text-[color:var(--neon-cyan)] text-6xl animate-pulse">📝</div>
+                </div>
+              ) : (
+                todos.map((todo) => (
+                  <div
+                    key={todo.id}
+                    className="flex items-start justify-between bg-[color:var(--bg-primary)]/50 p-4 rounded-lg border border-[color:var(--border-neon)] hover:shadow-[0_0_15px_rgba(0,255,255,0.3)] transition-all duration-300 transform hover:scale-[1.01]"
+                  >
+                    {editingTodo?.id === todo.id ? (
+                      <div className="flex-grow flex flex-col space-y-3">
+                        <input
+                          type="text"
+                          value={editingTodo.title}
+                          onChange={(e) =>
+                            setEditingTodo({ ...editingTodo, title: e.target.value })
+                          }
+                          className="w-full p-2 rounded-lg bg-[color:var(--bg-input)] border border-[color:var(--border-neon)] focus:ring-2 focus:ring-[color:var(--neon-cyan)] focus:border-transparent text-[color:var(--text-primary)]"
+                        />
+                        <textarea
+                          value={editingTodo.description || ""}
+                          onChange={(e) =>
+                            setEditingTodo({ ...editingTodo, description: e.target.value })
+                          }
+                          className="w-full p-2 rounded-lg bg-[color:var(--bg-input)] border border-[color:var(--border-neon)] focus:ring-2 focus:ring-[color:var(--neon-cyan)] focus:border-transparent text-[color:var(--text-primary)]"
+                          rows={2}
+                        />
+                        <div className="flex items-center space-x-4 mt-2">
                           <input
-                            type="text"
-                            value={editingTodo.title}
+                            type="checkbox"
+                            checked={editingTodo.completed}
                             onChange={(e) =>
-                              setEditingTodo({ ...editingTodo, title: e.target.value })
+                              setEditingTodo({ ...editingTodo, completed: e.target.checked })
                             }
-                            className="w-full p-2 rounded-lg bg-[color:var(--bg-input)] border border-[color:var(--border-neon)] focus:ring-2 focus:ring-[color:var(--neon-cyan)] focus:border-transparent text-[color:var(--text-primary)]"
+                            className="h-5 w-5 text-[color:var(--neon-pink)] rounded focus:ring-[color:var(--neon-pink)]"
                           />
-                          <textarea
-                            value={editingTodo.description || ""}
-                            onChange={(e) =>
-                              setEditingTodo({ ...editingTodo, description: e.target.value })
-                            }
-                            className="w-full p-2 rounded-lg bg-[color:var(--bg-input)] border border-[color:var(--border-neon)] focus:ring-2 focus:ring-[color:var(--neon-cyan)] focus:border-transparent text-[color:var(--text-primary)]"
-                            rows={2}
-                          />
-                          <div className="flex items-center space-x-4 mt-2">
+                          <button
+                            onClick={() => handleUpdateTodo(editingTodo)}
+                            className="neon-button-primary px-4 py-2 text-sm"
+                          >
+                            Save
+                          </button>
+                          <button
+                            onClick={() => setEditingTodo(null)}
+                            className="neon-button-secondary px-4 py-2 text-sm"
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="flex-grow">
+                        <div className="flex items-start justify-between">
+                          <div className="flex-grow">
+                            <h3 className={`text-lg font-semibold ${todo.completed ? "line-through text-[color:var(--text-secondary)]/60" : "text-[color:var(--text-primary)]"}`}>
+                              {todo.title}
+                            </h3>
+                            {todo.description && (
+                              <p className={`text-[color:var(--text-secondary)] mt-1 ${todo.completed ? "line-through" : ""}`}>
+                                {todo.description}
+                              </p>
+                            )}
+                          </div>
+                          <div className="flex items-center space-x-3 ml-4">
                             <input
                               type="checkbox"
-                              checked={editingTodo.completed}
-                              onChange={(e) =>
-                                setEditingTodo({ ...editingTodo, completed: e.target.checked })
-                              }
+                              checked={todo.completed}
+                              onChange={() => toggleTodoComplete(todo.id)}
                               className="h-5 w-5 text-[color:var(--neon-pink)] rounded focus:ring-[color:var(--neon-pink)]"
                             />
                             <button
-                              onClick={() => handleUpdateTodo(editingTodo)}
-                              className="neon-button-primary px-4 py-2 text-sm"
+                              onClick={() => setEditingTodo(todo)}
+                              className="neon-button-primary px-3 py-1 text-sm"
                             >
-                              Save
+                              Edit
                             </button>
                             <button
-                              onClick={() => setEditingTodo(null)}
-                              className="neon-button-secondary px-4 py-2 text-sm"
+                              onClick={() => handleDeleteTodo(todo.id)}
+                              className="neon-button-secondary px-3 py-1 text-sm"
                             >
-                              Cancel
+                              Delete
                             </button>
                           </div>
                         </div>
-                      ) : (
-                        <div className="flex-grow">
-                          <div className="flex items-start justify-between">
-                            <div className="flex-grow">
-                              <h3 className={`text-lg font-semibold ${todo.completed ? "line-through text-[color:var(--text-secondary)]/60" : "text-[color:var(--text-primary)]"}`}>
-                                {todo.title}
-                              </h3>
-                              {todo.description && (
-                                <p className={`text-[color:var(--text-secondary)] mt-1 ${todo.completed ? "line-through" : ""}`}>
-                                  {todo.description}
-                                </p>
-                              )}
-                            </div>
-                            <div className="flex items-center space-x-3 ml-4">
-                              <input
-                                type="checkbox"
-                                checked={todo.completed}
-                                onChange={() => toggleTodoComplete(todo.id)}
-                                className="h-5 w-5 text-[color:var(--neon-pink)] rounded focus:ring-[color:var(--neon-pink)]"
-                              />
-                              <button
-                                onClick={() => setEditingTodo(todo)}
-                                className="neon-button-primary px-3 py-1 text-sm"
-                              >
-                                Edit
-                              </button>
-                              <button
-                                onClick={() => handleDeleteTodo(todo.id)}
-                                className="neon-button-secondary px-3 py-1 text-sm"
-                              >
-                                Delete
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  ))
-                )}
-              </div>
+                      </div>
+                    )}
+                  </div>
+                ))
+              )}
             </div>
           </div>
-        </main>
-      </div>
+        </>
+      )}
+
+      {activeTab === 'analytics' && (
+        <div className="bg-[color:var(--bg-card)] rounded-lg border border-[color:var(--border-neon)] shadow-[0_0_15px_rgba(255,0,255,0.2)] p-6">
+          <h2 className="text-2xl font-bold text-[color:var(--neon-cyan)] mb-6">Analytics Dashboard</h2>
+
+          <AnalyticsComponent />
+
+          <div className="bg-[color:var(--bg-card)] rounded-lg border border-[color:var(--border-neon)] shadow-[0_0_15px_rgba(0,255,255,0.2)] p-6">
+            <h3 className="text-xl font-semibold text-[color:var(--neon-pink)] mb-4">Task Completion Rate</h3>
+            {totalTodos > 0 ? (
+              <div className="w-full bg-[color:var(--bg-primary)] rounded-full h-4">
+                <div
+                  className="bg-gradient-to-r from-[color:var(--neon-pink)] to-[color:var(--neon-cyan)] h-4 rounded-full"
+                  style={{ width: `${(completedTodos / totalTodos) * 100}%` }}
+                ></div>
+              </div>
+            ) : (
+              <div className="w-full bg-[color:var(--bg-primary)] rounded-full h-4">
+                <div className="bg-gray-500 h-4 rounded-full" style={{ width: '0%' }}></div>
+              </div>
+            )}
+            <p className="text-center mt-2 text-[color:var(--text-primary)]">
+              {totalTodos > 0 ? Math.round((completedTodos / totalTodos) * 100) : 0}% completed
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

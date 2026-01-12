@@ -1,46 +1,53 @@
-[00:00:07.203] Server  LOG     ✓ Ready in 4.5s
-[00:05:50.904] Server  LOG     ○ Compiling / ...
-[00:05:55.356] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:06:29.117] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:07:05.007] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:12:20.916] Server  LOG     ✓ Compiled in 4s
-[00:14:02.165] Server  LOG     ✓ Compiled in 1088ms
-[00:15:17.489] Server  LOG     ✓ Compiled in 2.6s
-[00:15:28.591] Server  LOG     ✓ Compiled in 2.4s
-[00:28:18.732] Server  LOG     ✓ Compiled in 322ms
-[00:29:04.742] Server  LOG     ✓ Compiled in 1522ms
-[00:30:21.496] Server  LOG     ✓ Compiled in 228ms
-[00:48:16.784] Server  LOG     ✓ Compiled in 844ms
-[00:50:24.673] Server  LOG     ✓ Compiled in 274ms
-[00:52:39.572] Server  LOG     ✓ Compiled in 166ms
-[00:52:44.220] Server  LOG     ✓ Compiled in 386ms
-[00:52:56.491] Server  LOG     ✓ Compiled in 198ms
-[00:53:00.107] Server  LOG     ✓ Compiled in 132ms
-[00:53:12.388] Server  LOG     ✓ Compiled in 165ms
-[00:53:16.758] Server  LOG     ✓ Compiled in 274ms
-[00:53:21.538] Server  LOG     ✓ Compiled in 283ms
-[00:53:25.983] Server  LOG     ✓ Compiled in 370ms
-[00:58:04.312] Server  LOG     ✓ Compiled in 195ms
-[00:58:21.301] Server  LOG     ✓ Compiled in 180ms
-[00:58:28.396] Server  LOG     ✓ Compiled in 232ms
-[00:58:36.736] Server  LOG     ✓ Compiled in 397ms
-[00:58:44.543] Server  LOG     ✓ Compiled in 229ms
-[01:01:37.910] Server  LOG     ✓ Compiled in 471ms
-[01:03:41.894] Server  LOG     ✓ Compiled in 364ms
-[01:04:38.053] Server  LOG     ✓ Compiled in 186ms
-[01:11:26.797] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:25:12.282] Server  LOG     ✓ Compiled in 239ms
-[01:28:01.603] Server  LOG     ✓ Compiled in 643ms
-[01:28:36.039] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:28:38.407] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:28:40.719] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:28:43.145] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:28:45.076] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:28:48.663] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:33:29.594] Server  LOG     ✓ Compiled in 286ms
-[01:34:14.118] Server  LOG     ✓ Compiled in 344ms
-[01:46:50.299] Server  LOG     ✓ Compiled in 1628ms
-[01:46:52.403] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:47:10.895] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:49:11.544] Server  LOG     ✓ Compiled in 245ms
-[01:50:12.310] Server  LOG     ✓ Compiled in 318ms
+[00:00:04.883] Server  LOG     ✓ Ready in 3.5s
+[00:00:10.288] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:33:30.573] Browser ERROR   Error fetching analytics: {}
+[01:33:30.683] Browser ERROR   Error fetching analytics: {}
+[01:33:32.749] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:33:49.604] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:34:20.912] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:46:56.273] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:52:29.170] Server  LOG     ✓ Compiled in 2.4s
+[01:52:44.695] Server  LOG     ✓ Compiled in 308ms
+[01:53:59.554] Server  LOG     ✓ Compiled in 216ms
+[01:54:15.683] Server  LOG     ✓ Compiled in 214ms
+[24:04:55.287] Server  LOG       Reload env: .env.local
+[24:22:34.054] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:23:03.431] Browser ERROR   Error fetching analytics: {}
+[24:23:03.886] Browser ERROR   Error fetching analytics: {}
+[24:26:43.112] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:26:46.988] Browser ERROR   Error fetching analytics: {}
+[24:26:48.026] Browser ERROR   Error fetching analytics: {}
+[24:27:12.444] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:27:14.988] Browser ERROR   Error fetching analytics: {}
+[24:27:14.988] Browser ERROR   Error fetching analytics: {}
+[24:29:58.964] Server  LOG       Reload env: .env.local
+[24:29:59.701] Server  WARN    ⚠ Fast Refresh had to perform a full reload when ./src/lib/auth-client.ts changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+[24:30:00.295] Server  LOG     ✓ Compiled in 2ms
+[24:30:02.444] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:30:03.506] Browser ERROR   Error fetching analytics: {}
+[24:30:03.558] Browser ERROR   Error fetching analytics: {}
+[24:30:52.449] Server  LOG       Reload env: .env.local
+[24:30:52.959] Server  LOG     ✓ Compiled in 216ms
+[24:30:53.017] Server  WARN    ⚠ Fast Refresh had to perform a full reload when ./src/lib/auth-client.ts changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+[24:30:55.674] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[24:30:57.323] Browser ERROR   Error fetching analytics: {}
+[24:30:58.492] Browser ERROR   Error fetching analytics: {}
+[25:27:14.932] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[25:27:17.288] Browser ERROR   Error fetching analytics: {}
+[25:27:17.542] Browser ERROR   Error fetching analytics: {}
+[25:28:14.282] Browser ERROR   Error fetching analytics: {}
+[25:28:14.718] Browser ERROR   Error fetching analytics: {}
+[25:28:44.242] Browser ERROR   Error fetching analytics: {}
+[25:28:44.796] Browser ERROR   Error fetching analytics: {}
+[25:29:08.592] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[25:29:09.820] Browser ERROR   Error fetching analytics: {}
+[25:29:10.302] Browser ERROR   Error fetching analytics: {}
+[25:29:49.018] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[25:29:50.286] Browser ERROR   Error fetching analytics: {}
+[25:29:50.895] Browser ERROR   Error fetching analytics: {}
+[25:34:23.556] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[25:44:22.719] Browser ERROR   Error fetching analytics: {}
+[25:44:22.960] Browser ERROR   Error fetching analytics: {}
+[25:51:38.266] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[25:54:30.219] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[26:37:03.790] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold

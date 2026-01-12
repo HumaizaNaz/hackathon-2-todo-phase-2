@@ -19,18 +19,12 @@ module.exports = {
           blue: '#00bfff',
           yellow: '#ffff00',
         },
-        // Light Mode Defaults
-        'bg-primary': '#f0f4f8',
-        'bg-card': '#ffffff',
-        'text-primary': '#1e293b',
-        'text-secondary': '#64748b',
-        'border-neon': '#ff00ff33',
-        // Dark Mode - Strong Neon
-        'bg-primary-dark': '#0a0a0f',
-        'bg-card-dark': '#12121a',
-        'text-primary-dark': '#e0e0ff',
-        'text-secondary-dark': '#a0a0c0',
-        'border-neon-dark': '#ff00ffaa',
+        // Using CSS variables for dynamic theming
+        'bg-primary': 'rgb(var(--bg-primary))',
+        'bg-card': 'rgb(var(--bg-card))',
+        'text-primary': 'rgb(var(--text-primary))',
+        'text-secondary': 'rgb(var(--text-secondary))',
+        'border-neon': 'rgb(var(--border-neon))',
       },
       boxShadow: {
         'neon': '0 0 6px #ff00ff, 0 0 10px #ff00ff, 0 0 30px #ff00ff',

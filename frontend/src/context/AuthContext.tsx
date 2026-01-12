@@ -18,13 +18,14 @@ interface AuthContextType {
     id: string;
     email: string;
   } | null;
+  updateUser: (userData: { bio?: string; name?: string; email?: string }) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [token, setTokenState] = useState<string | null>(null);
-  const [user, setUser] = useState<{ id: string; email: string } | null>(null);
+  const [user, setUser] = useState<{ id: string; email: string; name?: string } | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
@@ -34,8 +35,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (storedToken) {
         setTokenState(storedToken);
         try {
-          const decoded: { sub: string; email: string } = jwtDecode(storedToken);
-          setUser({ id: decoded.sub, email: decoded.email });
+          const decoded: { sub: string; email: string; name: string } = jwtDecode(storedToken);
+          setUser({ id: decoded.sub, email: decoded.email, name: decoded.name });
         } catch (error) {
           console.error("Failed to decode token:", error);
           // Handle invalid token, e.g., by logging out
@@ -54,8 +55,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (newToken) {
         sessionStorage.setItem("access_token", newToken);
         try {
-          const decoded: { sub: string; email: string } = jwtDecode(newToken);
-          setUser({ id: decoded.sub, email: decoded.email });
+          const decoded: { sub: string; email: string; name: string } = jwtDecode(newToken);
+          setUser({ id: decoded.sub, email: decoded.email, name: decoded.name });
         } catch (error) {
           console.error("Failed to decode token:", error);
           setUser(null);
@@ -76,14 +77,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const isAuthenticated = !!token;
 
+  const updateUser = (userData: { bio?: string; name?: string; email?: string }) => {
+    if (user) {
+      setUser({
+        ...user,
+        ...userData
+      });
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ 
-      token, 
-      setToken, 
-      logout, 
-      isAuthenticated, 
+    <AuthContext.Provider value={{
+      token,
+      setToken,
+      logout,
+      isAuthenticated,
       loading,
-      user
+      user,
+      updateUser
     }}>
       {children}
     </AuthContext.Provider>

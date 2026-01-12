@@ -1,1 +1,9 @@
-{}
+{
+  "[project]/src/context/ThemeContext.tsx [app-client] (ecmascript, next/dynamic entry)": {
+    "id": "[project]/src/context/ThemeContext.tsx [app-client] (ecmascript, next/dynamic entry)",
+    "files": [
+      "static/chunks/src_context_ThemeContext_tsx_b8bd9fb9._.js",
+      "static/chunks/src_context_ThemeContext_tsx_bde91d1f._.js"
+    ]
+  }
+}

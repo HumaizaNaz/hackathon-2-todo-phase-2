@@ -27,14 +27,14 @@ export const customSignIn = async (email: string, password: string) => {
   return data;
 };
 
-export const customSignUp = async (email: string, password: string) => {
+export const customSignUp = async (email: string, password: string, name?: string) => {
   // Call the backend auth endpoint directly
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/signup`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ email, password }),
+    body: JSON.stringify({ email, password, name }),
     credentials: 'include' // Include cookies in the request
   });
 

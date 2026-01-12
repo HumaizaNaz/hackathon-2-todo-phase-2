@@ -105,8 +105,9 @@ export const taskApi = {
   getTasks: () => apiClient.get<any[]>('/tasks'),
   createTask: (taskData: { title: string; description?: string }) =>
     apiClient.post<any>('/tasks', taskData),
-  updateTask: (id: number, taskData: { title?: string; description?: string; status?: string; completed?: boolean }) =>
+  updateTask: (id: number, taskData: { title?: string; description?: string; completed?: boolean }) =>
     apiClient.put<any>(`/tasks/${id}`, taskData),
   deleteTask: (id: number) => apiClient.delete<any>(`/tasks/${id}`),
-  toggleTaskComplete: (id: number) => apiClient.patch<any>(`/tasks/${id}/complete`)
+  toggleTaskComplete: (id: number, completed: boolean) =>
+    apiClient.patch<any>(`/tasks/${id}/toggle-complete`, { completed })
 };

@@ -3,8 +3,10 @@
 
 import Link from "next/link";
 import { useAuth } from "../context/AuthContext";
+import { useTheme } from "../context/ThemeContext";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import ThemeToggle from "./ThemeToggle";
 
 export default function Navbar() {
   const { isAuthenticated, logout } = useAuth();
@@ -18,7 +20,7 @@ export default function Navbar() {
         <div className="flex justify-between items-center">
           {/* Logo */}
           <Link href="/" className="flex items-center">
-            <h1 className="text-3xl font-bold text-[color:var(--neon-cyan)] tracking-wide" style={{ textShadow: '0 0 8px #00ffff, 0 0 15px #00ffff' }}>
+            <h1 className="text-3xl font-bold text-[color:var(--neon-cyan)] tracking-wide neon-text" style={{ textShadow: '0 0 8px #00ffff, 0 0 15px #00ffff' }}>
               Neon Todo
             </h1>
           </Link>
@@ -63,6 +65,11 @@ export default function Navbar() {
                 </Link>
               </>
             )}
+
+            {/* Theme Toggle */}
+            <div className="ml-4">
+              <ThemeToggle />
+            </div>
           </div>
 
           {/* Mobile Hamburger */}
@@ -133,6 +140,11 @@ export default function Navbar() {
                 </Link>
               </>
             )}
+
+            {/* Mobile Theme Toggle */}
+            <div className="px-4 py-2">
+              <ThemeToggle />
+            </div>
           </div>
         )}
       </div>

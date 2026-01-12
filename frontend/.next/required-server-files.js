@@ -141,7 +141,7 @@ self.__SERVER_FILES_MANIFEST={
     }
   },
   "appDir": "C:\\Users\\km\\Desktop\\docs\\hackatho-2\\phase-2\\frontend",
-  "relativeAppDir": "Desktop\\docs\\hackatho-2\\phase-2\\frontend",
+  "relativeAppDir": "",
   "files": [
     ".next\\routes-manifest.json",
     ".next\\server\\pages-manifest.json",

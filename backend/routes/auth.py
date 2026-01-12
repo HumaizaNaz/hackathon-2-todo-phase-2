@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException
-from sqlmodel import Session
+from sqlmodel import Session, select
 import bcrypt
 from passlib.context import CryptContext
 from pydantic import BaseModel
@@ -16,6 +16,7 @@ router = APIRouter()
 class UserLogin(BaseModel):
     email: str
     password: str
+    name: str | None = None
 
 def truncate_password(password: str) -> str:
     """
@@ -25,22 +26,27 @@ def truncate_password(password: str) -> str:
 
 @router.post("/signup")
 def signup(user: UserLogin, session: Session = Depends(get_session)):
-    existing_user = session.query(User).filter(User.email == user.email).first()
+    # Use SQLModel syntax instead of SQLAlchemy
+    statement = select(User).where(User.email == user.email)
+    existing_user = session.exec(statement).first()
     if existing_user:
         raise HTTPException(status_code=400, detail="Email already registered")
 
     safe_password = truncate_password(user.password)
     hashed_password = pwd_context.hash(safe_password)
 
-    new_user = User(email=user.email, hashed_password=hashed_password)
+    new_user = User(email=user.email, name=user.name, hashed_password=hashed_password)
     session.add(new_user)
     session.commit()
     session.refresh(new_user)
-    return {"id": str(new_user.id), "email": new_user.email}
+    return {"id": str(new_user.id), "email": new_user.email, "name": new_user.name}
+
+from sqlmodel import select
 
 @router.post("/signin")
 def login(user: UserLogin, session: Session = Depends(get_session)):
-    db_user = session.query(User).filter(User.email == user.email).first()
+    statement = select(User).where(User.email == user.email)
+    db_user = session.exec(statement).first()
     if not db_user or not pwd_context.verify(truncate_password(user.password), db_user.hashed_password):
         raise HTTPException(status_code=401, detail="Invalid credentials")
 

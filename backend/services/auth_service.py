@@ -24,7 +24,9 @@ def authenticate_user(email: str, password: str, session: Session) -> Optional[U
     """
     Authenticate user by email and password
     """
-    user = session.query(User).filter(User.email == email).first()
+    from sqlmodel import select
+    statement = select(User).where(User.email == email)
+    user = session.exec(statement).first()
     if not user or not verify_password(password, user.hashed_password):
         return None
     return user
@@ -36,7 +38,7 @@ def create_user_access_token(user: User) -> str:
     """
     access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(
-        data={"sub": str(user.id), "email": user.email},
+        data={"sub": str(user.id), "email": user.email, "name": user.name or user.email},
         expires_delta=access_token_expires
     )
     return access_token

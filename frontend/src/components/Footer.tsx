@@ -6,7 +6,7 @@ export default function Footer() {
   return (
     <footer className="border-t border-[color:var(--border-neon)] py-8 mt-20">
       <div className="container mx-auto px-4">
-        <div className="grid md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
           <div>
             <h3 className="text-xl font-bold text-[color:var(--text-primary)] mb-4">Neon Todo</h3>
             <p className="text-[color:var(--text-secondary)]">The ultimate task manager for the modern, cyber-enhanced individual.</p>
@@ -29,7 +29,7 @@ export default function Footer() {
           </div>
           <div>
             <h4 className="font-bold text-[color:var(--text-primary)] mb-4">Connect</h4>
-            <div className="flex space-x-4">
+            <div className="flex space-x-4 justify-start sm:justify-center md:justify-start">
               <Link href="#" className="text-[color:var(--text-secondary)] hover:text-[color:var(--neon-cyan)] transition-colors">
                 <Globe size={20} />
               </Link>

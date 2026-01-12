@@ -11,25 +11,25 @@ export default function AboutPage() {
       name: "Cyber-Punk Dev",
       role: "Lead Developer",
       bio: "Specializes in cutting-edge web technologies with a passion for cyberpunk aesthetics.",
-      avatar: "https://via.placeholder.com/150/ff00ff/ffffff?text=CP"
+      avatar: "/images/develper.jpeg"
     },
     {
       name: "Neon Designer",
       role: "UI/UX Lead",
       bio: "Creates stunning interfaces with a focus on user experience and futuristic design.",
-      avatar: "https://via.placeholder.com/150/00ffff/000000?text=ND"
+      avatar: "/images/develper.jpeg"
     },
     {
       name: "Glitch Artist",
       role: "Creative Director",
       bio: "Brings innovative ideas to life with an eye for unique and engaging experiences.",
-      avatar: "https://via.placeholder.com/150/9d00ff/ffffff?text=GA"
+      avatar: "/images/develper.jpeg"
     },
     {
       name: "Code Warrior",
       role: "Backend Specialist",
       bio: "Ensures robust and scalable systems that power our cyberpunk dreams.",
-      avatar: "https://via.placeholder.com/150/00bfff/ffffff?text=CW"
+      avatar: "/images/develper.jpeg"
     }
   ];
 
@@ -121,11 +121,15 @@ export default function AboutPage() {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {teamMembers.map((member, index) => (
               <div key={index} className="neon-card p-6 text-center hover:transform hover:scale-105 transition-all duration-300">
-                <img
-                  src={member.avatar}
-                  alt={member.name}
-                  className="w-24 h-24 rounded-full mx-auto mb-4 border-2 border-[color:var(--neon-pink)]"
-                />
+                <div className="w-24 h-24 rounded-full mx-auto mb-4 border-2 border-[color:var(--neon-pink)] overflow-hidden">
+                  <img
+                    src={member.avatar}
+                    alt={member.name}
+                    width={96}
+                    height={96}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
                 <h3 className="text-xl font-bold mb-1 text-[color:var(--text-primary)]">{member.name}</h3>
                 <p className="text-[color:var(--neon-cyan)] mb-3">{member.role}</p>
                 <p className="text-[color:var(--text-secondary)] text-sm">{member.bio}</p>
